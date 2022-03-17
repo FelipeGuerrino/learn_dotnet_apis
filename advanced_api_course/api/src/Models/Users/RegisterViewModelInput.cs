@@ -1,5 +1,6 @@
 namespace src.Models.Users
 {
+    ///
     public class RegisterViewModelInput 
     {
         public string User { get; set; } 
