@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using src.Filters;
 using src.Models.Users;
@@ -68,6 +69,18 @@ namespace src.Controllers
         [Route("register")]
         public IActionResult Register(RegisterViewModelInput registerViewModelInput)
         {
+            var optionsBuilder = new DbContextOptionsBuilder<CourseDbContext>();
+            optionsBuilder.UseSqlServer("Server=localhost;Database=COURSE;user=root;");
+            
+            CourseDbContext context = new CourseDbContext(optionsBuilder.Options);
+
+            var user = new User();
+            user.Login = registerViewModelInput.Email;
+            user.Login = registerViewModelInput.User;
+            user.Login = registerViewModelInput.Password;
+            context.User.Add(user);
+            context.SaveChanges();
+
             return Created("", registerViewModelInput);
         }
     }
