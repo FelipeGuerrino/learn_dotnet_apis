@@ -74,6 +74,14 @@ namespace src.Controllers
             
             CourseDbContext context = new CourseDbContext(optionsBuilder.Options);
 
+
+            var pendingMigrations = context.Database.GetPendingMigrations();
+            
+            if(pendingMigrations.Count() > 0)
+            {
+                context.Database.Migrate();
+            }
+
             var user = new User();
             user.Login = registerViewModelInput.Email;
             user.Login = registerViewModelInput.User;
